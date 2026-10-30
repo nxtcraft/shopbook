@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shopbook.in/sitemap.xml

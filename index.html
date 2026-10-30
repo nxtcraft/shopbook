@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopBook – Free Billing & Inventory App for Small Shops</title>
+<meta name="description" content="ShopBook is a free billing and inventory management app for small shop owners. Create bills, track stock, print receipts — works offline, no internet needed.">
+<meta name="keywords" content="billing app for shop, inventory management small business, free billing software india, dukaan billing app, shop billing offline, GST billing free">
+<link rel="canonical" href="https://shopbook.in/">
+
+<!-- OG -->
+<meta property="og:title" content="ShopBook – Free Billing & Inventory for Small Shops">
+<meta property="og:description" content="Create bills, manage products, track stock and print receipts. Free, offline-first, no signup needed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shopbook.in/">
+<meta property="og:image" content="https://shopbook.in/og.png">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ShopBook – Free Billing & Inventory for Small Shops">
+<meta name="twitter:description" content="Create bills, manage products, track stock and print receipts. Free, offline-first, no signup needed.">
+
+<link rel="stylesheet" href="css/main.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ShopBook",
+  "url": "https://shopbook.in/",
+  "description": "Free billing and inventory management app for small shop owners. Works offline.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (browser-based)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "featureList": ["Create bills", "Manage products", "Track stock levels", "Print receipts", "GST calculation", "Sales history", "Works offline", "No signup required"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is ShopBook free to use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, ShopBook is completely free. No subscription, no signup, no hidden charges." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ShopBook work without internet?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. ShopBook stores all your data in your browser using offline storage. You do not need internet after the first load. Your data is saved on your device." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I print receipts from ShopBook?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. After creating a bill you can print or save the receipt as a PDF from your browser's print function." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ShopBook support GST billing?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can enable GST on any bill and set the GST percentage (5%, 12%, 18%, 28% or any custom rate). The GST amount is shown separately on the receipt." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">Shop<span>Book</span></div>
+  <div class="topbar-shop" id="shopNameDisplay"></div>
+  <div class="topbar-spacer"></div>
+  <button class="topbar-btn" onclick="openShopSettings()">⚙ Settings</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="view-dashboard">
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Today's Sales</div>
+        <div class="stat-value green" id="stat-today">₹0</div>
+        <div class="stat-sub" id="stat-today-bills">0 bills</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value orange" id="stat-products">0</div>
+        <div class="stat-sub" id="stat-low-stock">0 low stock</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">This Month</div>
+        <div class="stat-value green" id="stat-month">₹0</div>
+        <div class="stat-sub" id="stat-month-bills">0 bills</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">All Time</div>
+        <div class="stat-value" id="stat-total">₹0</div>
+        <div class="stat-sub" id="stat-total-bills">0 bills</div>
+      </div>
+    </div>
+
+    <!-- Low stock alert -->
+    <div id="low-stock-alert" style="display:none" class="bill-card" style="border-color:#fca5a5; background:#fff5f5; margin-bottom:12px;">
+      <div style="font-weight:700; color:#dc2626; margin-bottom:6px;">⚠ Low Stock Alert</div>
+      <div id="low-stock-list" style="font-size:13px; color:#78716c;"></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title">Recent Bills</div>
+    </div>
+    <div id="recent-bills">
+      <div class="empty-state">
+        <div class="empty-icon">🧾</div>
+        <div class="empty-text">No bills yet</div>
+        <div class="empty-sub">Tap "New Bill" below to create your first bill</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW BILL -->
+  <div class="view" id="view-bill">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="productSearch" placeholder="Search product by name..." oninput="searchProducts(this.value)" autocomplete="off">
+    </div>
+    <div class="search-results" id="searchResults"></div>
+
+    <div class="cart-wrap">
+      <div class="cart-header">
+        <span>Items in Bill</span>
+        <span id="cart-count">0 items</span>
+      </div>
+      <div id="cart-body">
+        <div class="cart-empty">Search and add products above</div>
+      </div>
+    </div>
+
+    <label class="gst-toggle">
+      <input type="checkbox" id="gstEnabled" onchange="renderTotals()">
+      Add GST
+      <input type="number" class="gst-pct" id="gstPct" value="18" min="0" max="100" onchange="renderTotals()" onclick="document.getElementById('gstEnabled').checked=true; renderTotals()">
+      %
+    </label>
+
+    <div class="totals-box" id="totals-box" style="display:none">
+      <div class="total-row"><span>Subtotal</span><span id="t-sub">₹0</span></div>
+      <div class="total-row" id="gst-row" style="display:none"><span>GST (<span id="gst-pct-label">18</span>%)</span><span id="t-gst">₹0</span></div>
+      <div class="total-row grand"><span>Total</span><span id="t-grand">₹0</span></div>
+    </div>
+
+    <div class="bill-actions" id="bill-actions" style="display:none">
+      <button class="btn btn-outline" onclick="clearBill()">🗑 Clear</button>
+      <button class="btn btn-green" onclick="finaliseBill()">✅ Finalise Bill</button>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="view" id="view-products">
+    <div class="section-head">
+      <div class="section-title">Your Products</div>
+    </div>
+    <div id="products-list"></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="view" id="view-history">
+    <div class="section-head">
+      <div class="section-title">Bill History</div>
+    </div>
+    <div id="history-list"></div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-dashboard" onclick="switchView('dashboard')">
+    <span class="nav-icon">📊</span>Dashboard
+  </button>
+  <button class="nav-item" id="nav-bill" onclick="switchView('bill')">
+    <span class="nav-icon">🧾</span>New Bill
+  </button>
+  <button class="nav-item" id="nav-products" onclick="switchView('products')">
+    <span class="nav-icon">📦</span>Products
+  </button>
+  <button class="nav-item" id="nav-history" onclick="switchView('history')">
+    <span class="nav-icon">🕐</span>History
+  </button>
+</nav>
+
+<!-- FAB for adding product (visible on products tab) -->
+<button class="fab" id="fab-add" style="display:none" onclick="openAddProduct()">+</button>
+
+<!-- ── MODALS ── -->
+
+<!-- ADD/EDIT PRODUCT MODAL -->
+<div class="modal-overlay hidden" id="modal-product">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <button class="modal-close" onclick="closeModal('modal-product')">×</button>
+    <div class="modal-title" id="product-modal-title">Add Product</div>
+    <div class="field">
+      <label>Product Name *</label>
+      <input type="text" id="p-name" placeholder="e.g. Biscuit Parle-G 100g">
+    </div>
+    <div class="half">
+      <div class="field">
+        <label>Price (₹) *</label>
+        <input type="number" id="p-price" placeholder="0" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label>Stock Qty</label>
+        <input type="number" id="p-stock" placeholder="0" min="0">
+      </div>
+    </div>
+    <div class="half">
+      <div class="field">
+        <label>Unit</label>
+        <select id="p-unit">
+          <option>pcs</option>
+          <option>kg</option>
+          <option>g</option>
+          <option>litre</option>
+          <option>ml</option>
+          <option>dozen</option>
+          <option>box</option>
+          <option>pack</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Low Stock Alert</label>
+        <input type="number" id="p-low" placeholder="5" min="0">
+      </div>
+    </div>
+    <input type="hidden" id="p-id">
+    <button class="btn btn-orange" onclick="saveProduct()">Save Product</button>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="modal-overlay hidden" id="modal-receipt">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <button class="modal-close" onclick="closeModal('modal-receipt')">×</button>
+    <div class="modal-title">Bill Receipt</div>
+    <div class="print-area">
+      <div class="receipt" id="receipt-content"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;">
+      <button class="btn btn-outline" onclick="window.print()">🖨 Print</button>
+      <button class="btn btn-orange" onclick="closeModal('modal-receipt'); switchView('dashboard')">✅ Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP SETTINGS MODAL -->
+<div class="modal-overlay hidden" id="modal-settings">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <button class="modal-close" onclick="closeModal('modal-settings')">×</button>
+    <div class="modal-title">Shop Settings</div>
+    <div class="field">
+      <label>Shop Name</label>
+      <input type="text" id="s-name" placeholder="My Shop">
+    </div>
+    <div class="field">
+      <label>Owner Name</label>
+      <input type="text" id="s-owner" placeholder="Your name">
+    </div>
+    <div class="field">
+      <label>Phone Number</label>
+      <input type="tel" id="s-phone" placeholder="9876543210">
+    </div>
+    <div class="field">
+      <label>Address</label>
+      <input type="text" id="s-address" placeholder="Shop address">
+    </div>
+    <div class="field">
+      <label>GSTIN (optional)</label>
+      <input type="text" id="s-gstin" placeholder="22AAAAA0000A1Z5">
+    </div>
+    <button class="btn btn-orange" onclick="saveShopSettings()">Save Settings</button>
+    <div style="margin-top:12px; text-align:center;">
+      <button class="btn btn-outline" onclick="exportData()" style="width:auto; padding:10px 20px; font-size:13px;">📤 Export All Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SEO CONTENT (below fold) ── -->
+<div style="max-width:600px; margin:0 auto; padding:24px 16px 60px;">
+
+  <h2 style="font-size:18px; font-weight:800; margin-bottom:8px;">Free Billing App for Small Shops — Works Offline</h2>
+  <p style="font-size:14px; color:#57534e; line-height:1.6; margin-bottom:16px;">
+    ShopBook is a simple, free billing and inventory management app designed for small shop owners — kirana stores, grocery shops, medical stores, stationery shops, and any small business. Create bills in seconds, manage your products and stock levels, and print receipts — all without an internet connection.
+  </p>
+
+  <h3 style="font-size:15px; font-weight:700; margin-bottom:6px;">How to use ShopBook</h3>
+  <ol style="font-size:14px; color:#57534e; line-height:1.8; margin-bottom:16px; padding-left:20px;">
+    <li>Go to <strong>Products</strong> and add your items with name, price, and stock quantity.</li>
+    <li>Tap <strong>New Bill</strong> and search for the products you want to add.</li>
+    <li>Set quantities, enable GST if needed, and tap <strong>Finalise Bill</strong>.</li>
+    <li>Print the receipt or save it as a PDF from your browser.</li>
+    <li>View all past bills in <strong>History</strong>. Today's sales summary is on the Dashboard.</li>
+  </ol>
+
+  <h3 style="font-size:15px; font-weight:700; margin-bottom:6px;">Key Features</h3>
+  <ul style="font-size:14px; color:#57534e; line-height:1.8; margin-bottom:16px; padding-left:20px;">
+    <li>100% free — no subscription, no hidden cost</li>
+    <li>Works offline — no internet needed after first load</li>
+    <li>Your data stays on your device — no cloud upload, no server</li>
+    <li>GST billing support (any % rate)</li>
+    <li>Stock tracking with low-stock alerts</li>
+    <li>Print-ready receipts (80mm thermal printer format)</li>
+    <li>Sales history with today / month / all-time totals</li>
+    <li>No login, no signup, no app download needed</li>
+  </ul>
+
+  <h3 style="font-size:15px; font-weight:700; margin-bottom:10px;">Frequently Asked Questions</h3>
+  <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">Is ShopBook free?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">Yes, ShopBook is completely free. No subscription, no signup, and no hidden charges. All features are available for free.</p>
+    </details>
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">Does it work without internet?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">Yes. ShopBook saves all your data in your browser's local storage. Once the page loads, everything works offline — billing, products, history. No data is sent to any server.</p>
+    </details>
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">Can I use it on mobile?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">Yes. ShopBook is designed with large, touch-friendly buttons and works well on any smartphone or tablet browser. No app download needed.</p>
+    </details>
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">How do I print a receipt?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">After creating a bill, a receipt will appear. Tap the Print button — it opens your device's print dialog. You can print it or save it as a PDF.</p>
+    </details>
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">Does ShopBook support GST?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">Yes. When creating a bill, toggle "Add GST" and enter the GST percentage. The app shows the subtotal, GST amount, and grand total separately on the receipt.</p>
+    </details>
+    <details style="background:#fff; border:1px solid #fed7aa; border-radius:10px; padding:12px;">
+      <summary style="font-weight:700; font-size:14px; cursor:pointer;">What happens if I clear my browser?</summary>
+      <p style="font-size:13px; color:#57534e; margin-top:8px; line-height:1.6;">Your data is stored in browser local storage and will be cleared if you clear browser data. Use the Export Data button in Settings to back up your data before clearing the browser.</p>
+    </details>
+  </div>
+
+  <div style="text-align:center; margin-top:20px;">
+    <p style="font-size:12px; color:#a8a29e;">More free tools:
+      <a href="https://nxtcraft.github.io/invoicekit/" style="color:#ea580c;">InvoiceKit</a> ·
+      <a href="https://nxtcraft.github.io/tradecalc/" style="color:#ea580c;">TradeCalc</a> ·
+      <a href="https://nxtcraft.github.io/pdfcraft/" style="color:#ea580c;">PDFCraft</a> ·
+      <a href="https://nxtcraft.github.io/resumekit/" style="color:#ea580c;">ResumeKit</a>
+    </p>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
