@@ -508,13 +508,47 @@ function updateShopDisplay() {
   el.textContent = state.shop.name !== 'My Shop' ? state.shop.name : '';
 }
 
-// ── EXPORT ──
+// ── EXPORT / IMPORT ──
 function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'shopbook-backup-' + new Date().toISOString().slice(0, 10) + '.json';
   a.click();
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const d = JSON.parse(ev.target.result);
+        if (!d.shop || !Array.isArray(d.products) || !Array.isArray(d.bills)) {
+          alert('Invalid backup file. Please use a file exported from ShopBook.');
+          return;
+        }
+        const existing = state.bills.length + state.products.length;
+        if (existing > 0 && !confirm(`This will replace your current ${state.products.length} products and ${state.bills.length} bills. Continue?`)) return;
+        state = { ...d, cart: [], nextBillNo: d.nextBillNo || 1 };
+        save();
+        renderDashboard();
+        renderProducts();
+        renderHistory();
+        updateShopDisplay();
+        closeModal('modal-settings');
+        alert('✅ Data restored successfully from backup!');
+      } catch(err) {
+        alert('Could not read file. Make sure it is a valid ShopBook backup JSON.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 // ── MODAL HELPERS ──
