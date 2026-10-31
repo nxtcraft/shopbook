@@ -310,9 +310,10 @@
     <div class="print-area">
       <div class="receipt" id="receipt-content"></div>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:16px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-top:16px;">
       <button class="btn btn-outline" onclick="window.print()">🖨 Print</button>
       <button class="btn btn-outline" onclick="downloadReceiptPDF()" id="btn-pdf-dl">⬇️ PDF</button>
+      <button class="btn btn-outline" onclick="shareReceiptWhatsApp()" style="background:#25d366;color:#fff;border-color:#25d366;">💬 WhatsApp</button>
       <button class="btn btn-orange" onclick="closeModal('modal-receipt'); switchView('dashboard')">✅ Done</button>
     </div>
   </div>

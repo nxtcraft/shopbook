@@ -434,6 +434,19 @@ function showReceipt(billId) {
   openModal('modal-receipt');
 }
 
+function shareReceiptWhatsApp() {
+  const bill = state.bills.find(b => b.id === _openReceiptId);
+  if (!bill) return;
+  const shop = state.shop;
+  const lines = bill.items.map(i => `  • ${i.name} ×${i.qty} — ₹${(i.price * i.qty).toFixed(2)}`).join('\n');
+  const cust = bill.customer?.name ? `\nCustomer: ${bill.customer.name}` : '';
+  const text = `🧾 *${shop.name || 'My Shop'}*${cust}\nBill #${bill.no} | ${new Date(bill.date).toLocaleDateString('en-IN')}\n\n${lines}\n\n` +
+    (bill.discountAmt > 0 ? `Discount: −₹${bill.discountAmt.toFixed(2)}\n` : '') +
+    (bill.gstEnabled ? `GST (${bill.gstPct}%): ₹${bill.gstAmt.toFixed(2)}\n` : '') +
+    `*Total: ₹${bill.total.toFixed(2)}*\n\nThank you! 🙏`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
 async function downloadReceiptPDF() {
   const btn = document.getElementById('btn-pdf-dl');
   const orig = btn.textContent;
