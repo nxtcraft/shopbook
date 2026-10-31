@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Use ShopBook — Billing & Shop Management Guide</title>
+<meta name="description" content="Step-by-step guide to creating bills, managing products, and tracking sales with ShopBook. See real filled examples for a grocery or retail shop.">
+<meta name="keywords" content="shopbook how to use, shop billing software guide, how to create bill, billing app tutorial, shopbook tutorial, dukan ka hisab kaise rakhe, simple billing software guide, retail shop billing guide">
+<link rel="canonical" href="https://nxtcraft.github.io/shopbook/guide/">
+<meta property="og:title" content="How to Use ShopBook — Billing Guide with Examples">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Use ShopBook for Shop Billing",
+  "description": "Step-by-step guide to setting up ShopBook and creating bills for your shop",
+  "totalTime": "PT5M",
+  "step": [
+    { "@type": "HowToStep", "name": "Set up your shop name", "text": "Open ShopBook Settings. Enter your shop name, address, GSTIN, and phone number. These appear on every bill." },
+    { "@type": "HowToStep", "name": "Add your products", "text": "Go to Products. Add each product with its name, price, and unit (kg, piece, litre, etc.)." },
+    { "@type": "HowToStep", "name": "Create a new bill", "text": "Click New Bill. Enter the customer name, select products from your list, set quantities, and save." },
+    { "@type": "HowToStep", "name": "Print or download the receipt", "text": "Open the bill and click Print or Download PDF to generate a thermal receipt PDF." }
+  ]
+}
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #f0fdf4; color: #1a1a2e; }
+.site-header { background: linear-gradient(135deg, #15803d 0%, #22c55e 100%); color: white; padding: 14px 24px; }
+.logo { font-size: 20px; font-weight: 800; }
+.logo a { color: white; text-decoration: none; }
+.logo span { opacity: .7; }
+.container { max-width: 820px; margin: 0 auto; padding: 32px 20px 60px; }
+.breadcrumb { font-size: 12px; color: #22c55e; margin-bottom: 20px; }
+.breadcrumb a { color: #22c55e; text-decoration: none; }
+h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+.subtitle { font-size: 14px; color: #555; margin-bottom: 32px; line-height: 1.6; }
+.step-card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(21,128,61,.08); border-left: 4px solid #22c55e; }
+.step-num { font-size: 11px; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.step-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+.step-body { font-size: 14px; color: #333; line-height: 1.7; }
+.example-box { background: #dcfce7; border-radius: 10px; padding: 14px 16px; margin-top: 12px; font-size: 13px; }
+.example-box strong { color: #15803d; display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+.bill-mock { background: white; border: 1px solid #86efac; border-radius: 8px; padding: 14px; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8; }
+.bill-center { text-align: center; }
+.bill-line { border-top: 1px dashed #bbb; margin: 4px 0; }
+.bill-row { display: flex; justify-content: space-between; }
+.tip-box { background: #fef3c7; border-left: 3px solid #f59e0b; border-radius: 8px; padding: 12px 14px; margin-top: 12px; font-size: 13px; color: #92400e; line-height: 1.6; }
+.cta-box { background: linear-gradient(135deg,#15803d,#22c55e); color: white; border-radius: 16px; padding: 28px 32px; text-align: center; margin: 36px 0; }
+.cta-box h2 { font-size: 20px; margin-bottom: 8px; }
+.cta-box p { font-size: 13px; opacity: .85; margin-bottom: 16px; }
+.cta-btn { display: inline-block; background: white; color: #15803d; padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 15px; text-decoration: none; }
+h2 { font-size: 20px; font-weight: 700; margin: 36px 0 16px; }
+details { border: 1px solid #bbf7d0; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+details summary { padding: 13px 16px; cursor: pointer; font-weight: 600; font-size: 14px; }
+details p { padding: 0 16px 14px; font-size: 13px; color: #555; line-height: 1.7; }
+footer { text-align: center; padding: 20px; font-size: 12px; color: #22c55e; border-top: 1px solid #bbf7d0; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="site-header">
+  <div class="logo"><a href="../">Shop<span>Book</span></a></div>
+</div>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../">ShopBook</a> › How to Use</div>
+  <h1>How to Use ShopBook for Your Shop</h1>
+  <p class="subtitle">ShopBook runs in your browser — no installation needed. This guide walks you through setting up your shop and creating your first bill, with a grocery shop as a filled example.</p>
+
+  <div class="step-card">
+    <div class="step-num">Step 1</div>
+    <div class="step-title">Set up your shop details</div>
+    <div class="step-body">
+      Open ShopBook and go to <strong>Settings</strong> (gear icon). Fill in your shop information — it appears on every bill you print.
+      <div class="example-box">
+        <strong>Example — Ramesh General Store</strong>
+        <div>Shop Name: <strong>Ramesh General Store</strong></div>
+        <div>Address: <strong>12, Gandhi Chowk, Indore, MP 452001</strong></div>
+        <div>Phone: <strong>+91 94567 23456</strong></div>
+        <div>GSTIN: <strong>23AABCR1234D1Z5</strong> (leave blank if not registered)</div>
+      </div>
+      <div class="tip-box">💡 Your shop name and GSTIN appear in the header of every bill. If you're a small trader without GST registration, you can leave GSTIN blank — the bill header will just show the shop name and phone.</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">Step 2</div>
+    <div class="step-title">Add your products</div>
+    <div class="step-body">
+      Go to <strong>Products</strong> and click <strong>+ Add Product</strong>. Add each item you sell with its price per unit.
+      <div class="example-box">
+        <strong>Example products — Ramesh General Store</strong>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:4px; margin-top:4px; font-weight:600; color:#15803d;">
+          <span>Product Name</span><span>Price</span><span>Unit</span>
+        </div>
+        <div style="border-top:1px dashed #86efac; margin:4px 0;"></div>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:4px; line-height:2;">
+          <span>Basmati Rice</span><span>₹85</span><span>per kg</span>
+          <span>Toor Dal</span><span>₹120</span><span>per kg</span>
+          <span>Sunflower Oil</span><span>₹145</span><span>per litre</span>
+          <span>Parle-G Biscuit</span><span>₹10</span><span>per packet</span>
+          <span>Dettol Soap</span><span>₹48</span><span>per piece</span>
+          <span>Sugar</span><span>₹45</span><span>per kg</span>
+        </div>
+      </div>
+      <div class="tip-box">💡 Add your most frequently sold items first. You can edit prices anytime — price changes apply to new bills only (old bills retain the original price).</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">Step 3</div>
+    <div class="step-title">Create a new bill</div>
+    <div class="step-body">
+      Click <strong>+ New Bill</strong>. Enter the customer name (optional). Then add items from your product list and set quantities.
+      <div class="example-box">
+        <strong>Example — customer purchase</strong>
+        <div>Customer: <strong>Sunita Devi</strong></div>
+        <div style="margin-top:8px;">
+          <div>• Basmati Rice — 5 kg → ₹425</div>
+          <div>• Toor Dal — 2 kg → ₹240</div>
+          <div>• Sunflower Oil — 1 litre → ₹145</div>
+          <div>• Parle-G Biscuit — 3 packets → ₹30</div>
+          <div>• Dettol Soap — 2 pieces → ₹96</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;">Here's what the bill looks like:</div>
+      <div class="bill-mock">
+        <div class="bill-center"><strong>RAMESH GENERAL STORE</strong></div>
+        <div class="bill-center">Gandhi Chowk, Indore · 94567 23456</div>
+        <div class="bill-line"></div>
+        <div class="bill-row"><span>Bill No: 0042</span><span>31 Oct 2026</span></div>
+        <div class="bill-row"><span>Customer: Sunita Devi</span></div>
+        <div class="bill-line"></div>
+        <div class="bill-row"><span>Basmati Rice 5kg</span><span>₹425</span></div>
+        <div class="bill-row"><span>Toor Dal 2kg</span><span>₹240</span></div>
+        <div class="bill-row"><span>Sunflower Oil 1ltr</span><span>₹145</span></div>
+        <div class="bill-row"><span>Parle-G x3</span><span>₹30</span></div>
+        <div class="bill-row"><span>Dettol Soap x2</span><span>₹96</span></div>
+        <div class="bill-line"></div>
+        <div class="bill-row"><strong><span>TOTAL</span><span>₹936</span></strong></div>
+        <div class="bill-center" style="margin-top:6px; font-size:11px;">Thank you for shopping!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">Step 4</div>
+    <div class="step-title">Print or download the receipt as PDF</div>
+    <div class="step-body">
+      Click <strong>View</strong> on the bill. In the receipt modal, you have three options:
+      <ul style="margin:8px 0 0 18px; line-height:2.2;">
+        <li><strong>Print</strong> — Opens browser print dialog. Use a thermal 58mm or 80mm receipt printer, or print to A4.</li>
+        <li><strong>⬇️ PDF</strong> — Downloads a PDF formatted as a thermal receipt (80mm width). Useful for WhatsApp or email.</li>
+        <li><strong>✅ Done</strong> — Closes the receipt and marks the bill as completed.</li>
+      </ul>
+      <div class="tip-box">💡 Send the receipt PDF on WhatsApp to your customers for a professional touch. Most grocery customers appreciate a digital receipt they can reference later.</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">Step 5</div>
+    <div class="step-title">View sales history and daily totals</div>
+    <div class="step-body">
+      The <strong>Bills</strong> tab shows all past bills sorted by date. You can see total collection per day and search bills by customer name or bill number.
+      <div class="tip-box">💡 ShopBook stores all data in your browser (localStorage). If you clear browser data or use a different device, your bills won't be there. For a permanent backup, use the browser's print feature to save any important bills as PDF.</div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Start billing your shop</h2>
+    <p>Free · Works offline · No signup needed</p>
+    <a href="../" class="cta-btn">Open ShopBook →</a>
+  </div>
+
+  <h2>Frequently Asked Questions</h2>
+  <details><summary>Does ShopBook work without internet?</summary><p>Yes — once you've opened ShopBook in your browser, it works offline. All data is saved in your browser's localStorage. Internet is only needed to first load the page.</p></details>
+  <details><summary>Can I use ShopBook on a mobile phone?</summary><p>Yes — ShopBook is mobile-responsive. Many shopkeepers use it on an Android phone kept at the counter. For the best experience, use Chrome on Android.</p></details>
+  <details><summary>Can I print on a thermal receipt printer?</summary><p>Yes. Click Print from the receipt modal. In the print dialog, set the paper size to match your thermal printer (58mm or 80mm). The receipt is formatted to fit thermal paper width. The PDF download also uses 80mm width.</p></details>
+  <details><summary>Is my data backed up?</summary><p>ShopBook stores data in browser localStorage — it doesn't sync to a server. If you clear your browser data, bills are lost. To back up: print important bills as PDF, or use your browser's export/backup feature for localStorage. Future versions will add CSV export.</p></details>
+
+  <div style="margin-top:28px; font-size:12px; color:#22c55e;">
+    Also try: <a href="https://nxtcraft.github.io/invoicekit/" style="color:#22c55e;">InvoiceKit — GST Invoice Generator</a> ·
+    <a href="https://nxtcraft.github.io/" style="color:#22c55e;">All NxtCraft Tools</a>
+  </div>
+</div>
+
+<footer>&copy; 2026 ShopBook · <a href="https://nxtcraft.github.io/" style="color:#22c55e;">NxtCraft Tools</a></footer>
+</body>
+</html>
