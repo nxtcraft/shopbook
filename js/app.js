@@ -77,8 +77,9 @@ function renderDashboard() {
       <div class="bill-card" onclick="showReceipt(${b.id})">
         <div class="bill-card-top">
           <div>
-            <div class="bill-no">Bill #${b.no}</div>
+            <div class="bill-no">Bill #${b.no}${b.customer && b.customer.name ? ' · ' + esc(b.customer.name) : ''}</div>
             <div class="bill-time">${formatDate(b.date)}</div>
+            ${b.customer && b.customer.phone ? `<div class="bill-items-count">📞 ${esc(b.customer.phone)}</div>` : ''}
           </div>
           <div style="text-align:right">
             <div class="bill-amount">₹${b.total.toFixed(2)}</div>
@@ -259,9 +260,21 @@ function renderTotals() {
   document.getElementById('t-grand').textContent = '₹' + grand.toFixed(2);
 }
 
+function toggleCustomer() {
+  const fields = document.getElementById('customer-fields');
+  const icon   = document.getElementById('customer-toggle-icon');
+  const open   = fields.style.display === 'none';
+  fields.style.display = open ? 'block' : 'none';
+  icon.textContent = open ? '− Hide' : '+ Add';
+}
+
 function clearBill() {
   if (state.cart.length > 0 && !confirm('Clear all items?')) return;
   state.cart = [];
+  // reset customer fields
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-phone').value = '';
+  document.getElementById('c-address').value = '';
   renderCart();
 }
 
@@ -273,6 +286,13 @@ function finaliseBill() {
   const gstAmt = gstEnabled ? subtotal * gstPct / 100 : 0;
   const grand = subtotal + gstAmt;
 
+  // Customer details (optional)
+  const customer = {
+    name:    document.getElementById('c-name').value.trim(),
+    phone:   document.getElementById('c-phone').value.trim(),
+    address: document.getElementById('c-address').value.trim()
+  };
+
   // Deduct stock
   state.cart.forEach(item => {
     const p = state.products.find(p => p.id === item.productId);
@@ -283,6 +303,7 @@ function finaliseBill() {
     id: Date.now(),
     no: state.nextBillNo++,
     date: new Date().toISOString(),
+    customer,
     items: state.cart.map(i => ({ ...i })),
     subtotal,
     gstEnabled,
@@ -292,6 +313,10 @@ function finaliseBill() {
   };
   state.bills.push(bill);
   state.cart = [];
+  // clear customer fields
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-phone').value = '';
+  document.getElementById('c-address').value = '';
   save();
 
   renderCart();
@@ -307,6 +332,16 @@ function showReceipt(billId) {
     `<div class="receipt-item"><span>${esc(i.name)} ×${i.qty}</span><span>₹${(i.price * i.qty).toFixed(2)}</span></div>`
   ).join('');
 
+  const cust = bill.customer || {};
+  const custBlock = (cust.name || cust.phone || cust.address) ? `
+    <hr class="receipt-divider">
+    <div style="font-size:12px; line-height:1.7;">
+      <div style="font-weight:700; margin-bottom:2px;">Customer</div>
+      ${cust.name    ? `<div>${esc(cust.name)}</div>` : ''}
+      ${cust.phone   ? `<div>📞 ${esc(cust.phone)}</div>` : ''}
+      ${cust.address ? `<div>📍 ${esc(cust.address)}</div>` : ''}
+    </div>` : '';
+
   document.getElementById('receipt-content').innerHTML = `
     <div class="receipt-shop">
       <h2>${esc(shop.name || 'My Shop')}</h2>
@@ -317,6 +352,7 @@ function showReceipt(billId) {
     </div>
     <hr class="receipt-divider">
     <div class="receipt-row"><span>Bill #${bill.no}</span><span>${formatDate(bill.date)}</span></div>
+    ${custBlock}
     <hr class="receipt-divider">
     ${lines}
     <hr class="receipt-divider">
@@ -340,8 +376,9 @@ function renderHistory() {
     <div class="bill-card" onclick="showReceipt(${b.id})">
       <div class="bill-card-top">
         <div>
-          <div class="bill-no">Bill #${b.no}</div>
+          <div class="bill-no">Bill #${b.no}${b.customer && b.customer.name ? ' · ' + esc(b.customer.name) : ''}</div>
           <div class="bill-time">${formatDate(b.date)}</div>
+          ${b.customer && b.customer.phone ? `<div class="bill-items-count">📞 ${esc(b.customer.phone)}</div>` : ''}
           <div class="bill-items-count">${b.items.map(i => esc(i.name) + ' ×' + i.qty).join(', ')}</div>
         </div>
         <div style="text-align:right">

@@ -123,6 +123,31 @@
 
   <!-- NEW BILL -->
   <div class="view" id="view-bill">
+
+    <!-- CUSTOMER DETAILS -->
+    <div class="customer-box">
+      <div class="customer-toggle" onclick="toggleCustomer()">
+        <span>👤 Customer Details</span>
+        <span id="customer-toggle-icon" style="font-size:12px; color:#92400e;">+ Add</span>
+      </div>
+      <div id="customer-fields" style="display:none; padding-top:10px;">
+        <div class="half">
+          <div class="field">
+            <label>Customer Name</label>
+            <input type="text" id="c-name" placeholder="Name (optional)" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" id="c-phone" placeholder="Phone (optional)">
+          </div>
+        </div>
+        <div class="field">
+          <label>Address / Notes</label>
+          <input type="text" id="c-address" placeholder="Address or note (optional)">
+        </div>
+      </div>
+    </div>
+
     <div class="search-box">
       <span class="search-icon">🔍</span>
       <input type="text" id="productSearch" placeholder="Search product by name..." oninput="searchProducts(this.value)" autocomplete="off">
