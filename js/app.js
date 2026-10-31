@@ -9,8 +9,12 @@ let state = {
 let currentPayment = 'cash';
 
 // ── STORAGE ──
+let _sbSaveTimer;
 function save() {
   localStorage.setItem('shopbook', JSON.stringify(state));
+  clearTimeout(_sbSaveTimer);
+  const el = document.getElementById('sb-saved');
+  if (el) { el.style.opacity='1'; _sbSaveTimer = setTimeout(()=>{el.style.opacity='0';},2000); }
 }
 
 function load() {
@@ -20,6 +24,20 @@ function load() {
   }
   if (!state.cart) state.cart = [];
   if (!state.nextBillNo) state.nextBillNo = 1;
+}
+
+function exportCSV() {
+  if (!state.bills.length) { alert('No bills to export yet.'); return; }
+  const rows = [['Bill No','Date','Customer','Items','Total']];
+  state.bills.forEach(b => {
+    const items = (b.items||[]).map(i=>`${i.name} x${i.qty}`).join('; ');
+    rows.push([b.no, new Date(b.date).toLocaleDateString('en-IN'), b.customer||'', items, b.total||'']);
+  });
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'shopbook-bills-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
 }
 
 // ── NAV ──

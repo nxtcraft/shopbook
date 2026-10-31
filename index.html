@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-XXXXXXXXXX");</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShopBook – Free Billing & Inventory App for Small Shops</title>
@@ -70,7 +73,9 @@
   <div class="topbar-logo">Shop<span>Book</span></div>
   <div class="topbar-shop" id="shopNameDisplay"></div>
   <div class="topbar-spacer"></div>
+  <span id="sb-saved" style="font-size:11px;color:rgba(255,255,255,.9);background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;opacity:0;transition:opacity .4s;font-weight:600;margin-right:8px;white-space:nowrap;">✓ Saved</span>
   <a href="guide/" style="font-size:12px;color:rgba(255,255,255,.75);text-decoration:none;margin-right:8px;">📖 Guide</a>
+  <button class="topbar-btn" onclick="exportCSV()" style="margin-right:4px;">⬇ CSV</button>
   <button class="topbar-btn" onclick="openShopSettings()">⚙ Settings</button>
 </div>
 
