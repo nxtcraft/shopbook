@@ -1,0 +1,12 @@
+{
+  "name": "ShopBook – Free Billing App",
+  "short_name": "ShopBook",
+  "description": "Free billing and inventory app for small shops. Works offline.",
+  "start_url": "/shopbook/",
+  "scope": "/shopbook/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff8f0",
+  "theme_color": "#ea580c",
+  "categories": ["business", "finance", "productivity"]
+}
