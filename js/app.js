@@ -6,6 +6,7 @@ let state = {
   cart: [],
   nextBillNo: 1
 };
+let currentPayment = 'cash';
 
 // ── STORAGE ──
 function save() {
@@ -84,6 +85,7 @@ function renderDashboard() {
           <div style="text-align:right">
             <div class="bill-amount">₹${b.total.toFixed(2)}</div>
             <div class="bill-items-count">${b.items.length} item${b.items.length !== 1 ? 's' : ''}</div>
+            ${b.paymentLabel ? `<div class="bill-items-count">${b.paymentLabel}</div>` : ''}
           </div>
         </div>
       </div>`).join('');
@@ -243,21 +245,44 @@ function renderCart() {
 
   totalsBox.style.display = 'block';
   actions.style.display = 'grid';
+  document.getElementById('payment-row').style.display = 'block';
   renderTotals();
 }
 
 function renderTotals() {
   const subtotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  // Discount
+  const discountEnabled = document.getElementById('discountEnabled').checked;
+  const discountVal  = parseFloat(document.getElementById('discountVal').value) || 0;
+  const discountType = document.getElementById('discountType').value;
+  let discountAmt = 0;
+  if (discountEnabled && discountVal > 0) {
+    discountAmt = discountType === 'pct' ? subtotal * discountVal / 100 : Math.min(discountVal, subtotal);
+  }
+  const afterDiscount = subtotal - discountAmt;
+
+  // GST on post-discount amount
   const gstEnabled = document.getElementById('gstEnabled').checked;
   const gstPct = parseFloat(document.getElementById('gstPct').value) || 0;
-  const gstAmt = gstEnabled ? subtotal * gstPct / 100 : 0;
-  const grand = subtotal + gstAmt;
+  const gstAmt = gstEnabled ? afterDiscount * gstPct / 100 : 0;
+  const grand = afterDiscount + gstAmt;
 
   document.getElementById('t-sub').textContent = '₹' + subtotal.toFixed(2);
+  document.getElementById('discount-row').style.display = discountEnabled && discountAmt > 0 ? 'flex' : 'none';
+  document.getElementById('discount-label').textContent = discountType === 'pct' ? discountVal + '%' : '₹' + discountVal;
+  document.getElementById('t-discount').textContent = '−₹' + discountAmt.toFixed(2);
   document.getElementById('gst-row').style.display = gstEnabled ? 'flex' : 'none';
   document.getElementById('gst-pct-label').textContent = gstPct;
   document.getElementById('t-gst').textContent = '₹' + gstAmt.toFixed(2);
   document.getElementById('t-grand').textContent = '₹' + grand.toFixed(2);
+}
+
+function selectPayment(mode) {
+  currentPayment = mode;
+  ['cash','upi','card','credit'].forEach(m => {
+    document.getElementById('pay-' + m).classList.toggle('active', m === mode);
+  });
 }
 
 function toggleCustomer() {
@@ -271,20 +296,32 @@ function toggleCustomer() {
 function clearBill() {
   if (state.cart.length > 0 && !confirm('Clear all items?')) return;
   state.cart = [];
-  // reset customer fields
   document.getElementById('c-name').value = '';
   document.getElementById('c-phone').value = '';
   document.getElementById('c-address').value = '';
+  document.getElementById('discountEnabled').checked = false;
+  document.getElementById('discountVal').value = 0;
+  selectPayment('cash');
   renderCart();
 }
 
 function finaliseBill() {
   if (state.cart.length === 0) { alert('Add at least one product.'); return; }
   const subtotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  const discountEnabled = document.getElementById('discountEnabled').checked;
+  const discountVal  = parseFloat(document.getElementById('discountVal').value) || 0;
+  const discountType = document.getElementById('discountType').value;
+  let discountAmt = 0;
+  if (discountEnabled && discountVal > 0) {
+    discountAmt = discountType === 'pct' ? subtotal * discountVal / 100 : Math.min(discountVal, subtotal);
+  }
+  const afterDiscount = subtotal - discountAmt;
+
   const gstEnabled = document.getElementById('gstEnabled').checked;
   const gstPct = parseFloat(document.getElementById('gstPct').value) || 0;
-  const gstAmt = gstEnabled ? subtotal * gstPct / 100 : 0;
-  const grand = subtotal + gstAmt;
+  const gstAmt = gstEnabled ? afterDiscount * gstPct / 100 : 0;
+  const grand = afterDiscount + gstAmt;
 
   // Customer details (optional)
   const customer = {
@@ -299,13 +336,20 @@ function finaliseBill() {
     if (p && p.stock !== null) p.stock = Math.max(0, p.stock - item.qty);
   });
 
+  const paymentLabels = { cash: 'Cash', upi: 'UPI', card: 'Card', credit: 'Credit' };
   const bill = {
     id: Date.now(),
     no: state.nextBillNo++,
     date: new Date().toISOString(),
     customer,
+    payment: currentPayment,
+    paymentLabel: paymentLabels[currentPayment] || 'Cash',
     items: state.cart.map(i => ({ ...i })),
     subtotal,
+    discountEnabled,
+    discountAmt,
+    discountVal,
+    discountType,
     gstEnabled,
     gstPct,
     gstAmt,
@@ -313,10 +357,13 @@ function finaliseBill() {
   };
   state.bills.push(bill);
   state.cart = [];
-  // clear customer fields
+  // reset bill fields
   document.getElementById('c-name').value = '';
   document.getElementById('c-phone').value = '';
   document.getElementById('c-address').value = '';
+  document.getElementById('discountEnabled').checked = false;
+  document.getElementById('discountVal').value = 0;
+  selectPayment('cash');
   save();
 
   renderCart();
@@ -357,9 +404,11 @@ function showReceipt(billId) {
     ${lines}
     <hr class="receipt-divider">
     <div class="receipt-row"><span>Subtotal</span><span>₹${bill.subtotal.toFixed(2)}</span></div>
+    ${bill.discountEnabled && bill.discountAmt > 0 ? `<div class="receipt-row" style="color:#16a34a;"><span>Discount (${bill.discountType === 'pct' ? bill.discountVal + '%' : '₹' + bill.discountVal})</span><span>−₹${bill.discountAmt.toFixed(2)}</span></div>` : ''}
     ${bill.gstEnabled ? `<div class="receipt-row"><span>GST (${bill.gstPct}%)</span><span>₹${bill.gstAmt.toFixed(2)}</span></div>` : ''}
     <hr class="receipt-divider">
     <div class="receipt-row receipt-total"><span>TOTAL</span><span>₹${bill.total.toFixed(2)}</span></div>
+    <div class="receipt-row" style="font-size:12px; color:#78716c; margin-top:4px;"><span>Payment</span><span>${esc(bill.paymentLabel || 'Cash')}</span></div>
     <div class="receipt-footer">Thank you! Visit again.</div>
   `;
   openModal('modal-receipt');
@@ -384,6 +433,7 @@ function renderHistory() {
         <div style="text-align:right">
           <div class="bill-amount">₹${b.total.toFixed(2)}</div>
           <div class="bill-items-count">${b.items.length} item${b.items.length !== 1 ? 's' : ''}</div>
+          ${b.paymentLabel ? `<div class="bill-items-count">${b.paymentLabel}</div>` : ''}
         </div>
       </div>
     </div>`).join('');

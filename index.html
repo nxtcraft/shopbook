@@ -164,17 +164,40 @@
       </div>
     </div>
 
-    <label class="gst-toggle">
-      <input type="checkbox" id="gstEnabled" onchange="renderTotals()">
-      Add GST
-      <input type="number" class="gst-pct" id="gstPct" value="18" min="0" max="100" onchange="renderTotals()" onclick="document.getElementById('gstEnabled').checked=true; renderTotals()">
-      %
-    </label>
+    <div class="bill-options-row">
+      <label class="gst-toggle">
+        <input type="checkbox" id="gstEnabled" onchange="renderTotals()">
+        GST
+        <input type="number" class="gst-pct" id="gstPct" value="18" min="0" max="100" onchange="renderTotals()" onclick="document.getElementById('gstEnabled').checked=true; renderTotals()">
+        %
+      </label>
+      <label class="gst-toggle">
+        <input type="checkbox" id="discountEnabled" onchange="renderTotals()">
+        Discount
+        <input type="number" class="gst-pct" id="discountVal" value="0" min="0" onchange="renderTotals()" onclick="document.getElementById('discountEnabled').checked=true; renderTotals()" placeholder="0">
+        <select id="discountType" onchange="renderTotals()" style="padding:4px 6px; border-radius:6px; border:1px solid var(--border); background:var(--surface2); font-size:12px; font-weight:600;">
+          <option value="pct">%</option>
+          <option value="flat">₹</option>
+        </select>
+      </label>
+    </div>
 
     <div class="totals-box" id="totals-box" style="display:none">
       <div class="total-row"><span>Subtotal</span><span id="t-sub">₹0</span></div>
+      <div class="total-row" id="discount-row" style="display:none"><span>Discount (<span id="discount-label"></span>)</span><span id="t-discount" style="color:#16a34a;">−₹0</span></div>
       <div class="total-row" id="gst-row" style="display:none"><span>GST (<span id="gst-pct-label">18</span>%)</span><span id="t-gst">₹0</span></div>
       <div class="total-row grand"><span>Total</span><span id="t-grand">₹0</span></div>
+    </div>
+
+    <!-- PAYMENT MODE -->
+    <div id="payment-row" style="display:none; margin-bottom:10px;">
+      <div style="font-size:12px; font-weight:700; color:var(--label); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em;">Payment Mode</div>
+      <div class="payment-btns">
+        <button class="pay-btn active" id="pay-cash" onclick="selectPayment('cash')">💵 Cash</button>
+        <button class="pay-btn" id="pay-upi" onclick="selectPayment('upi')">📱 UPI</button>
+        <button class="pay-btn" id="pay-card" onclick="selectPayment('card')">💳 Card</button>
+        <button class="pay-btn" id="pay-credit" onclick="selectPayment('credit')">📋 Credit</button>
+      </div>
     </div>
 
     <div class="bill-actions" id="bill-actions" style="display:none">
