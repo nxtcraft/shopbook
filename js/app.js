@@ -371,7 +371,9 @@ function finaliseBill() {
 }
 
 // ── RECEIPT ──
+let _openReceiptId = null;
 function showReceipt(billId) {
+  _openReceiptId = billId;
   const bill = state.bills.find(b => b.id === billId);
   if (!bill) return;
   const shop = state.shop;
@@ -412,6 +414,27 @@ function showReceipt(billId) {
     <div class="receipt-footer">Thank you! Visit again.</div>
   `;
   openModal('modal-receipt');
+}
+
+async function downloadReceiptPDF() {
+  const btn = document.getElementById('btn-pdf-dl');
+  const orig = btn.textContent;
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  try {
+    const el = document.getElementById('receipt-content');
+    const canvas = await html2canvas(el, { scale: 3, backgroundColor: '#ffffff' });
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdfW = 80; // mm — thermal receipt width
+    const pdfH = Math.ceil((canvas.height / canvas.width) * pdfW) + 10;
+    const doc = new jsPDF({ unit: 'mm', format: [pdfW, pdfH], orientation: 'portrait' });
+    doc.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH - 10);
+    const bill = state.bills.find(b => b.id === _openReceiptId);
+    doc.save('Bill-' + (bill ? bill.no : Date.now()) + '.pdf');
+  } catch(e) { alert('PDF generation failed. Use Print → Save as PDF instead.'); }
+  btn.textContent = orig;
+  btn.disabled = false;
 }
 
 // ── HISTORY ──
