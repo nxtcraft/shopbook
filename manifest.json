@@ -1,12 +1,17 @@
 {
-  "name": "ShopBook – Free Billing App",
+  "name": "ShopBook",
   "short_name": "ShopBook",
-  "description": "Free billing and inventory app for small shops. Works offline.",
-  "start_url": "/shopbook/",
-  "scope": "/shopbook/",
+  "description": "Free Billing App for Small Shops",
+  "start_url": "https://nxtcraft.github.io/shopbook/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#fff8f0",
+  "background_color": "#0f172a",
   "theme_color": "#ea580c",
-  "categories": ["business", "finance", "productivity"]
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='#ea580c'/><text y='.9em' font-size='80' text-anchor='middle' x='50'>🛒</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
