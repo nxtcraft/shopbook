@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shipping Rate Calculator — Shiprocket vs Delhivery vs Bluedart | NxtCraft</title>
+<meta name="description" content="Compare shipping rates from Shiprocket, Delhivery, and Bluedart. Enter weight, dimensions and zone to find the cheapest courier for your e-commerce orders.">
+<meta name="keywords" content="shipping rate calculator India, Shiprocket rates 2025, Delhivery rates, Bluedart charges, courier comparison e-commerce, COD charges courier">
+<meta property="og:title" content="Shipping Rate Estimator — Shiprocket vs Delhivery vs Bluedart">
+<meta name="theme-color" content="#ea580c">
+<link rel="canonical" href="https://nxtcraft.github.io/shopbook/shipping/">
+<link rel="stylesheet" href="../css/main.css">
+<style>
+.page-header{background:linear-gradient(135deg,#ea580c,#c2410c);padding:16px 20px;text-align:center;color:#fff}
+.page-header .logo{font-size:12px;font-weight:700;opacity:.8;margin-bottom:2px}
+.page-header h1{font-size:1.3rem;font-weight:800;margin:0}
+.page-header .sub{font-size:.78rem;opacity:.85;margin-top:3px}
+nav.breadnav{background:#fff3e0;border-bottom:1px solid #fed7aa;padding:8px 16px;font-size:.78rem;color:#78716c}
+nav.breadnav a{color:#ea580c;text-decoration:none;font-weight:600}
+.container{max-width:860px;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid #fed7aa;border-radius:14px;padding:18px;margin-bottom:16px}
+.card h2{font-size:.88rem;font-weight:700;color:#c2410c;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.form-grid{grid-template-columns:1fr}}
+label{font-size:.78rem;font-weight:600;color:#57534e;display:block;margin-bottom:3px}
+input[type=number],select{width:100%;padding:9px 12px;border:1px solid #fed7aa;border-radius:8px;font-size:.88rem;background:#fff;color:#1c1917;outline:none;transition:border-color .15s}
+input[type=number]:focus,select:focus{border-color:#ea580c}
+.dim-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn{background:#ea580c;color:#fff;border:none;border-radius:9px;padding:11px 24px;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;margin-top:4px;transition:background .15s}
+.btn:hover{background:#c2410c}
+.toggle-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.toggle-row label{margin:0;cursor:pointer;font-size:.82rem;font-weight:600;color:#57534e}
+input[type=checkbox]{width:16px;height:16px;accent-color:#ea580c;cursor:pointer}
+/* Results */
+.results-wrap{display:none}
+.results-wrap.show{display:block}
+.chargeable-info{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 16px;font-size:.82rem;color:#78716c;margin-bottom:12px}
+.chargeable-info strong{color:#1c1917}
+.courier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.courier-grid{grid-template-columns:1fr}}
+.courier-card{background:#fff;border:2px solid #fed7aa;border-radius:14px;padding:16px;text-align:center;position:relative;transition:border-color .15s}
+.courier-card.cheapest{border-color:#16a34a;background:#f0fdf4}
+.cheapest-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:12px;white-space:nowrap}
+.courier-logo{font-size:1.6rem;margin-bottom:4px}
+.courier-name{font-size:.82rem;font-weight:700;color:#57534e;margin-bottom:8px}
+.courier-price{font-size:1.6rem;font-weight:800;color:#ea580c;margin:4px 0}
+.courier-price.cheapest-price{color:#16a34a}
+.courier-breakdown{font-size:.72rem;color:#78716c;line-height:1.6;margin-top:8px;text-align:left;border-top:1px solid #fed7aa;padding-top:8px}
+.courier-breakdown span{display:flex;justify-content:space-between}
+.cod-note{font-size:.72rem;color:#d97706;margin-top:4px;font-weight:600}
+.feature-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;justify-content:center}
+.ftag{font-size:.65rem;padding:2px 7px;border-radius:8px;background:#fff7ed;color:#78716c;border:1px solid #fed7aa;font-weight:600}
+.note-box{background:#fef9c3;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;font-size:.78rem;color:#78716c;margin-top:12px;line-height:1.6}
+.note-box strong{color:#1c1917}
+.seo-box{background:#fff;border:1px solid #fed7aa;border-radius:12px;padding:16px;font-size:.8rem;color:#78716c;line-height:1.7;margin-top:16px}
+.seo-box h2{font-size:.88rem;color:#c2410c;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo">NxtCraft</div>
+  <h1>🚚 Shipping Rate Estimator</h1>
+  <div class="sub">Compare Shiprocket · Delhivery · Bluedart — FY 2025 rates</div>
+</div>
+
+<nav class="breadnav">
+  <a href="https://nxtcraft.github.io/">All Tools</a> ·
+  <a href="https://nxtcraft.github.io/shopbook/">ShopBook</a> · Shipping Rates
+</nav>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Package Details</h2>
+    <div class="form-grid">
+      <div>
+        <label for="weight">Dead Weight (grams) *</label>
+        <input type="number" id="weight" placeholder="e.g. 500" min="1" max="50000">
+      </div>
+      <div>
+        <label for="zone">Delivery Zone *</label>
+        <select id="zone">
+          <option value="">Select Zone</option>
+          <option value="local">Local (Same City / PIN)</option>
+          <option value="zonal">Zonal (Same State / 400 km)</option>
+          <option value="regional">Regional (Adjacent States)</option>
+          <option value="national">National (Pan India)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <label>Dimensions (cm) — optional, for volumetric weight</label>
+      <div class="dim-row">
+        <div><input type="number" id="dimL" placeholder="Length"></div>
+        <div><input type="number" id="dimW" placeholder="Width"></div>
+        <div><input type="number" id="dimH" placeholder="Height"></div>
+      </div>
+    </div>
+
+    <div class="form-grid" style="margin-top:12px">
+      <div>
+        <label for="invoiceVal">Invoice Value (₹) — for COD charges</label>
+        <input type="number" id="invoiceVal" placeholder="e.g. 999" min="0">
+      </div>
+      <div style="display:flex;align-items:flex-end;padding-bottom:2px">
+        <div class="toggle-row">
+          <input type="checkbox" id="codToggle">
+          <label for="codToggle">Include COD (Cash on Delivery)</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calculate()">Compare Shipping Rates →</button>
+  </div>
+
+  <div class="results-wrap" id="resultsWrap">
+
+    <div class="chargeable-info" id="chargeableInfo"></div>
+
+    <div class="card">
+      <h2>Rate Comparison</h2>
+      <div class="courier-grid" id="courierGrid"></div>
+
+      <div class="note-box" style="margin-top:16px">
+        <strong>Note:</strong> These are indicative rates based on published standard pricing. Actual rates may vary based on your negotiated contract, pickup location, service type (Express vs Surface), and applicable fuel surcharges (typically 10–20%). Always verify on the courier's website before confirming.
+      </div>
+    </div>
+
+    <div class="seo-box">
+      <h2>How to Choose the Right Courier for Your E-Commerce Orders</h2>
+      <p><strong>Shiprocket</strong> is an aggregator — it routes your shipment to the best courier (Bluedart, Ekart, Xpressbees, DTDC) based on pin code coverage. Best for small sellers who want one dashboard for multiple couriers.</p>
+      <p><strong>Delhivery</strong> offers strong pan-India coverage especially for Tier-2 and Tier-3 cities. Known for good NDR (non-delivery report) management and reliable RTO rates.</p>
+      <p><strong>Bluedart</strong> (a DHL company) is the premium choice — highest delivery SLA compliance, best for high-value goods and B2B shipments. Rates are higher but so is the service level.</p>
+      <p>For <strong>volumetric weight</strong>: couriers use L×W×H÷5000 (cm) as chargeable weight if it's greater than actual weight. Pack tightly to avoid overpaying.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div style="text-align:center;padding:14px 20px;font-size:13px;color:#78716c;border-top:1px solid #fed7aa;margin-top:16px">
+  <a href="https://nxtcraft.github.io/" style="color:#ea580c;text-decoration:none;font-weight:600">← All Tools</a>
+  &nbsp;·&nbsp;
+  <a href="https://nxtcraft.github.io/shopbook/" style="color:#ea580c;text-decoration:none;font-weight:600">ShopBook</a>
+  &nbsp;·&nbsp;
+  <a href="https://buymeacoffee.com/nxtcraft" target="_blank" rel="noopener" style="background:#FFDD00;color:#000;padding:2px 10px;border-radius:6px;font-weight:700;text-decoration:none;font-size:12px">☕ Support</a>
+  &nbsp;·&nbsp;
+  <a href="mailto:pradeepkesharwani4@gmail.com?subject=Feedback" style="color:#78716c;text-decoration:none">📧 Feedback</a>
+</div>
+
+<script>
+// Rates structure: [base_500g, base_1kg, per_extra_500g]
+// Zones: local, zonal, regional, national
+const RATES = {
+  shiprocket: {
+    local:    [45,  58,  25],
+    zonal:    [55,  72,  30],
+    regional: [65,  82,  35],
+    national: [78,  95,  42]
+  },
+  delhivery: {
+    local:    [38,  50,  22],
+    zonal:    [48,  63,  27],
+    regional: [58,  74,  32],
+    national: [65,  82,  36]
+  },
+  bluedart: {
+    local:    [68,  90,  38],
+    zonal:    [88, 115,  48],
+    regional: [108, 138,  58],
+    national: [120, 155,  65]
+  }
+};
+
+// COD: [fixed_charge, percent_of_invoice]
+const COD_RATES = {
+  shiprocket: [30, 1.5],
+  delhivery:  [25, 1.25],
+  bluedart:   [40, 2.0]
+};
+
+const COURIER_INFO = {
+  shiprocket: { icon: '📦', name: 'Shiprocket', tags: ['Aggregator', 'Multi-courier', 'Dashboard'], features: 'Routes to best courier (Bluedart/Ekart/Xpressbees)' },
+  delhivery:  { icon: '🚛', name: 'Delhivery',  tags: ['Pan India', 'Tier-2 strong', 'B2C'], features: 'Strong Tier-2/3 coverage, good NDR management' },
+  bluedart:   { icon: '🔵', name: 'Bluedart',   tags: ['Premium', 'B2B', 'DHL network'], features: 'Highest SLA compliance, ideal for high-value' }
+};
+
+function calcShipping(courier, zone, chargeable_g) {
+  const r = RATES[courier][zone];
+  if (!r) return 0;
+  const kg = chargeable_g / 1000;
+  if (kg <= 0.5) return r[0];
+  if (kg <= 1.0) return r[1];
+  const extra500 = Math.ceil((kg - 1.0) / 0.5);
+  return r[1] + extra500 * r[2];
+}
+
+function calcCOD(courier, invoiceVal) {
+  const [fixed, pct] = COD_RATES[courier];
+  return fixed + (invoiceVal * pct / 100);
+}
+
+function calculate() {
+  const weight = parseFloat(document.getElementById('weight').value);
+  const zone = document.getElementById('zone').value;
+  if (!weight || weight <= 0) { alert('Please enter package weight'); return; }
+  if (!zone) { alert('Please select delivery zone'); return; }
+
+  const L = parseFloat(document.getElementById('dimL').value) || 0;
+  const W = parseFloat(document.getElementById('dimW').value) || 0;
+  const H = parseFloat(document.getElementById('dimH').value) || 0;
+  const invoiceVal = parseFloat(document.getElementById('invoiceVal').value) || 0;
+  const cod = document.getElementById('codToggle').checked;
+
+  // Volumetric weight (divisor 5000 for cm)
+  const volWeight = (L && W && H) ? (L * W * H / 5000) * 1000 : 0; // in grams
+  const chargeable = Math.max(weight, volWeight);
+
+  // Info box
+  let infoHtml = `<strong>Actual weight:</strong> ${weight}g`;
+  if (volWeight > 0) {
+    infoHtml += ` &nbsp;·&nbsp; <strong>Volumetric weight:</strong> ${volWeight.toFixed(0)}g (${L}×${W}×${H} cm ÷ 5000)`;
+    if (volWeight > weight) infoHtml += ` <span style="color:#ea580c;font-weight:700">← Volumetric applies</span>`;
+  }
+  infoHtml += ` &nbsp;·&nbsp; <strong>Chargeable:</strong> ${chargeable.toFixed(0)}g`;
+  document.getElementById('chargeableInfo').innerHTML = infoHtml;
+
+  // Calculate for each courier
+  const couriers = ['shiprocket', 'delhivery', 'bluedart'];
+  const totals = {};
+  couriers.forEach(c => {
+    const ship = calcShipping(c, zone, chargeable);
+    const codFee = cod ? calcCOD(c, invoiceVal) : 0;
+    totals[c] = { ship, cod: codFee, total: ship + codFee };
+  });
+
+  // Find cheapest
+  let cheapestCourier = couriers[0];
+  couriers.forEach(c => {
+    if (totals[c].total < totals[cheapestCourier].total) cheapestCourier = c;
+  });
+
+  // Render cards
+  let html = '';
+  couriers.forEach(c => {
+    const info = COURIER_INFO[c];
+    const t = totals[c];
+    const isCheapest = c === cheapestCourier;
+    const zone_labels = { local: 'Local', zonal: 'Zonal', regional: 'Regional', national: 'National' };
+
+    html += `<div class="courier-card${isCheapest ? ' cheapest' : ''}">
+      ${isCheapest ? '<span class="cheapest-badge">✓ Cheapest</span>' : ''}
+      <div class="courier-logo">${info.icon}</div>
+      <div class="courier-name">${info.name}</div>
+      <div class="courier-price${isCheapest ? ' cheapest-price' : ''}">₹${t.total.toFixed(0)}</div>
+      <div style="font-size:.7rem;color:#78716c">${cod ? 'incl. COD' : 'prepaid'}</div>
+      <div class="courier-breakdown">
+        <span><span>Shipping (${zone_labels[zone]})</span><span>₹${t.ship.toFixed(0)}</span></span>
+        ${cod ? `<span><span>COD charges</span><span>₹${t.cod.toFixed(2)}</span></span>` : ''}
+        <span style="font-weight:700;color:#1c1917;border-top:1px dashed #fed7aa;padding-top:4px;margin-top:2px"><span>Total</span><span>₹${t.total.toFixed(0)}</span></span>
+      </div>
+      <div class="feature-tags">
+        ${info.tags.map(tag => `<span class="ftag">${tag}</span>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('courierGrid').innerHTML = html;
+  const wrap = document.getElementById('resultsWrap');
+  wrap.classList.add('show');
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Allow Enter key
+document.addEventListener('keypress', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
