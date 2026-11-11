@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>!function(){var t=localStorage.getItem('nc_theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)}()</script>
 <!-- Google Analytics 4 — replace G-R9EW10BJGW with your Measurement ID -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R9EW10BJGW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-R9EW10BJGW");</script>
@@ -449,5 +450,7 @@
   <div style="color:#065f46;font-size:10px;margin-top:8px">Sponsored · Opens in new tab</div>
 </div>
 <div style="text-align:center;padding:14px 20px;font-size:13px;color:#94a3b8;border-top:1px solid rgba(0,0,0,0.08);margin-top:16px"><a href="https://nxtcraft.github.io/" style="color:#6366f1;text-decoration:none;font-weight:600">← All Tools</a> &nbsp;·&nbsp; <a href="https://buymeacoffee.com/nxtcraft" target="_blank" rel="noopener" style="background:#FFDD00;color:#000;padding:2px 10px;border-radius:6px;font-weight:700;text-decoration:none;font-size:12px">☕ Support</a> &nbsp;·&nbsp; <a href="mailto:pradeepkesharwani4@gmail.com?subject=Feedback" style="color:#94a3b8;text-decoration:none">📧 Feedback</a></div>
+<button id="nc-dm" title="Toggle dark mode" onclick="!function(){var e=document.documentElement,t=e.getAttribute('data-theme')==='dark'?'light':'dark';e.setAttribute('data-theme',t);localStorage.setItem('nc_theme',t);document.getElementById('nc-dm').textContent=t==='dark'?'\u2600\ufe0f':'\U0001f319'}()" style="position:fixed;bottom:72px;right:14px;z-index:9999;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);cursor:pointer;font-size:18px;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.3)">🌙</button>
+<script>!function(){var b=document.getElementById('nc-dm');if(b)b.textContent=localStorage.getItem('nc_theme')==='dark'?'\u2600\ufe0f':'\U0001f319'}()</script>
 </body>
 </html>

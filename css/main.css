@@ -207,3 +207,17 @@ body {
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-text { font-size: 15px; margin-bottom: 6px; }
 .empty-sub { font-size: 13px; }
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+  --bg: #111827; --surface: #1f2937; --surface2: #111827;
+  --border: #374151; --accent: #f97316; --accent2: #ea580c;
+  --accent-light: #1f2937; --text: #f9fafb; --muted: #9ca3af; --label: #d1d5db;
+  --success: #22c55e; --danger: #ef4444; --warning: #f59e0b;
+}
+[data-theme="dark"] .topbar { background: var(--accent); }
+[data-theme="dark"] .nav-item { color: #9ca3af; }
+[data-theme="dark"] .nav-item.active { color: var(--accent); }
+[data-theme="dark"] .stat-card { background: #1f2937; border-color: #374151; }
+[data-theme="dark"] input[type=number], [data-theme="dark"] select { background: #0f172a; border-color: #374151; color: #f9fafb; }
+[data-theme="dark"] .page-header { background: linear-gradient(135deg,#c2410c,#9a3412)!important; }
